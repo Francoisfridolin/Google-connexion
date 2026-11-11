@@ -6,37 +6,42 @@
     <title>Connexion Google</title>
     <style>
       :root {
-        --bg: #dfeaf6;
-        --card: #f7f8fa;
+        --bg: #edf3ff;
+        --card: rgba(255, 255, 255, 0.9);
         --text: #1f2937;
-        --muted: #5d6878;
+        --muted: #5f6f82;
+        --border: #dfe8f3;
         --primary: #1a73e8;
-        --primary-dark: #0d5bd7;
-        --border: #dfe7f4;
+        --primary-dark: #0d5bd8;
       }
 
       * {
         box-sizing: border-box;
       }
 
-      body {
+      html, body {
         margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
+        min-height: 100%;
+        height: 100%;
         font-family: Arial, Helvetica, sans-serif;
-        background: var(--bg);
+        background: linear-gradient(135deg, #eaf1ff 0%, #eef6ff 45%, #f5f9ff 100%);
         color: var(--text);
       }
 
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
       .login-card {
-        width: min(92vw, 430px);
-        background: rgba(255, 255, 255, 0.12);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 24px;
-        box-shadow: 0 14px 38px rgba(47, 83, 128, 0.12);
-        padding: 28px 26px 22px;
-        backdrop-filter: blur(4px);
+        width: min(94vw, 430px);
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        box-shadow: 0 18px 48px rgba(61, 92, 146, 0.14);
+        padding: 30px 26px 24px;
       }
 
       .brand {
@@ -44,14 +49,14 @@
         align-items: center;
         justify-content: center;
         gap: 12px;
-        font-size: 2rem;
+        font-size: 2.1rem;
         font-weight: 700;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
       }
 
-      .google-mark {
-        width: 30px;
-        height: 30px;
+      .g-mark {
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         background: conic-gradient(
           #4285f4 0 25%,
@@ -60,42 +65,38 @@
           #ea4335 75% 100%
         );
         position: relative;
+        display: inline-block;
         box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
       }
 
-      .google-mark::after {
+      .g-mark::after {
         content: "";
         position: absolute;
-        top: 7px;
-        left: 7px;
-        width: 16px;
-        height: 16px;
+        inset: 0;
+        background: rgba(255,255,255,0.4);
+        clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
         border-radius: 50%;
-        background: white;
-        clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 50% 50%, 50% 100%, 0% 100%, 0% 50%, 50% 50%);
-        opacity: 0.9;
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2.2rem, 4vw, 3rem);
         text-align: center;
-        line-height: 1.2;
-        font-weight: 700;
+        font-size: clamp(2.2rem, 5vw, 3rem);
+        line-height: 1.1;
       }
 
       .subtitle {
-        margin: 18px 0 28px;
+        margin: 18px auto 26px;
+        max-width: 300px;
         text-align: center;
         color: var(--muted);
-        font-size: 1.04rem;
+        font-size: 1.05rem;
         line-height: 1.6;
       }
 
       .google-btn-wrap {
         display: flex;
         justify-content: center;
-        margin-bottom: 18px;
       }
 
       #googleLoginBtn {
@@ -104,43 +105,9 @@
         justify-content: center;
       }
 
-      .custom-google-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        width: 100%;
-        padding: 15px 18px;
-        border: 2px solid #7da9f0;
-        background: rgba(255, 255, 255, 0.75);
-        border-radius: 12px;
-        color: #1f2937;
-        font-size: 1.05rem;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(52, 84, 141, 0.08);
-        transition: all 0.2s ease;
-      }
-
-      .custom-google-button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(52, 84, 141, 0.12);
-        background: #ffffff;
-      }
-
-      .g-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-grid;
-        place-items: center;
-        font-weight: 700;
-        font-size: 1.2rem;
-        color: #1a73e8;
-      }
-
-      @media (max-width: 480px) {
+      @media (max-width: 420px) {
         .login-card {
-          padding: 22px 18px 20px;
+          padding: 24px 18px 20px;
         }
 
         .brand {
@@ -152,7 +119,7 @@
   <body>
     <div class="login-card">
       <div class="brand">
-        <span class="google-mark"></span>
+        <span class="g-mark"></span>
         <span>Google</span>
       </div>
 
@@ -219,20 +186,20 @@
           return;
         }
 
-        google.accounts.id.initialize({
+        window.google.accounts.id.initialize({
           client_id: CLIENT_ID,
           callback: handleCredentialResponse,
           auto_select: false,
           cancel_on_tap_outside: true
         });
 
-        google.accounts.id.renderButton(document.getElementById("googleLoginBtn"), {
+        window.google.accounts.id.renderButton(document.getElementById("googleLoginBtn"), {
           theme: "outline",
           size: "large",
           width: "100%",
           text: "continue_with",
-          logo_alignment: "left",
-          shape: "rectangular"
+          shape: "pill",
+          logo_alignment: "left"
         });
       };
     </script>
